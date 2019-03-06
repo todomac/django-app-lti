@@ -25,8 +25,8 @@ class LTICourse(models.Model):
         ordering = ['course_name_short','course_name']
 
 class LTICourseUser(models.Model):
-    course = models.ForeignKey(LTICourse)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    course = models.ForeignKey(LTICourse, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     roles = models.CharField(max_length=2048, blank=True, null=True, verbose_name="Roles")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -69,7 +69,7 @@ class LTIResource(models.Model):
     canvas_course_id = models.CharField(max_length=255, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    course = models.ForeignKey(LTICourse, null=True)
+    course = models.ForeignKey(LTICourse, on_delete=models.SET_NULL, null=True)
     
     @classmethod
     def hasResource(cls, consumer_key, resource_link_id):
